@@ -864,16 +864,19 @@ namespace Wpf_ApiMétéo_QuentinVernaison
             InitializeComponent();
             InitializeComboBox();
 
-            //Appeler la méthode Timer
-            Timer();
+            
             // Sélectionner Annecy par défaut lors du chargement de la fenêtre
             Cb_Ville.SelectedItem = "Annecy";
             // Appeler la méthode GetWeather avec la ville sélectionnée
             _ = GetWeather("Annecy");
+
+            //Appeler la méthode Timer
+            Timer();
+
             //si la personne selectionne une autre ville dans la combobox afficher la météo de cette ville
             Cb_Ville.SelectionChanged += Cb_Ville_SelectionChanged;
-
             
+
 
 
         }
@@ -896,24 +899,7 @@ namespace Wpf_ApiMétéo_QuentinVernaison
             await GetWeather(selectedCity);
         }
 
-        private void Btn_Ajouter_Click(object sender, RoutedEventArgs e)
-        {
-            // Ajouter une ville dans la ComboBox
-            if (Cb_Ville.Items.Contains(Tb_Ajouter_Ville.Text))
-            {
-                MessageBox.Show("Ville deja ajoutée");
-            }
-            else
-            {
-                //Ajoute la ville dans la combobox
-                Cb_Ville.Items.Add(Tb_Ajouter_Ville.Text);
-                Cb_Ville.SelectedItem = Tb_Ajouter_Ville.Text;
-
-
-
-                Tb_Ajouter_Ville.Text = "";
-            }
-        }
+        
 
         private void Timer()
         {
@@ -990,7 +976,12 @@ namespace Wpf_ApiMétéo_QuentinVernaison
                     Tb_MoinsJour3.Text = fcstDay3.tmin + "°C";
                     Tb_PlusJour3.Text = fcstDay3.tmax + "°C";
 
-                    //Afficher la température à 00h00 , 08h00 ,12h00 , 16h00 et 20h00
+                    //Afficher la température L'heure du lever su soleil et du coucher du soleil
+
+                    Tb_Sunrise.Text = "Lever du soleil" + ": " + root.city_info.sunrise;
+                    Tb_Sunset.Text = "Coucher du soleil" + ": " + root.city_info.sunset;
+
+
 
                     
                     
@@ -1016,6 +1007,7 @@ namespace Wpf_ApiMétéo_QuentinVernaison
             return new List<string> { "Annecy", "Paris", "Lyon", "Marseille", "Grenoble", "Lille" };
         }
 
+        
 
     }
 
