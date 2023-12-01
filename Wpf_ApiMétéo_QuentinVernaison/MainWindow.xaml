@@ -26,8 +26,9 @@
 
         <Style x:Key="Minuscule" TargetType="{x:Type TextBox}">
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontSize" Value="5"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="TextAlignment" Value="Center"/>
+            
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -41,7 +42,7 @@
         </Style>
 
         <Style x:Key="Petit" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#150578"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="IsReadOnly" Value="True"/>
@@ -57,8 +58,8 @@
         </Style>
 
         <Style x:Key="Moyen" TargetType="{x:Type TextBox}">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Background" Value="#150578"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="Template">
@@ -72,8 +73,35 @@
             </Setter>
         </Style>
 
+        <Style x:Key="Date" TargetType="{x:Type TextBox}">
+            <Setter Property="Background" Value="#150578"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="20">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GridBas" TargetType="{x:Type Grid}">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Margin" Value="10"/>
+            
+
+        </Style>
+
+
+
+
+
         <Style x:Key="ComboBoxMoyen" TargetType="ComboBox" >
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#150578"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontFamily" Value="Arial"/>
@@ -83,7 +111,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ComboBox}">
                         <Border BorderBrush="Black" BorderThickness="2" CornerRadius="2">
-                             
+
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -92,22 +120,22 @@
         </Style>
 
         <Style TargetType="Label">
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="#150578"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            
+
         </Style>
     </Window.Resources>
 
     <!--Grid principale-->
     <Grid>
         <Grid.Background>
-                <ImageBrush ImageSource="/Image/Background.jpg"/>
-            </Grid.Background>
-        
+            <ImageBrush ImageSource="/Image/Background.jpg" />
+        </Grid.Background>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="0.3*"/>
             <RowDefinition Height="1.2*"/>
@@ -121,16 +149,21 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
+            <Button Grid.Column="3" Name="Bt_Ajouter" Click="Btn_Ajouter_Click" Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30"/>
+            <TextBox  Name="Tb_Ajouter_Ville" Text="" VerticalContentAlignment="Center" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="30" TextAlignment="Center"/>
             <Image Source="/Image/Position.png" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" IsEnabled="False"/>
             <ComboBox  Grid.Column="1" Name="Cb_Ville" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30"/>
-            <Image Source="/Image/Calendrier.png" Grid.Column="3"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" IsEnabled="False"/>
-            <TextBox Style="{StaticResource Moyen}" Grid.Column="4" Name="Tb_Date" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" IsEnabled="False"/>
+            <Image Source="/Image/Calendrier.png" Grid.Column="5"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" IsEnabled="False"/>
+            <TextBox Style="{StaticResource Moyen}" VerticalContentAlignment="Center" Grid.Column="6" Name="Tb_Date" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" IsEnabled="False"/>
+            
         </Grid>
-        
+
         <!--Grid pour le temps de aujourd'hui-->
 
         <Grid Grid.Row="1" Name="Meteo" Background="Transparent">
@@ -151,7 +184,7 @@
                     <RowDefinition Height="0.5*"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Style="{StaticResource Title}" Name="Tb_Temperature" Text="" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" TextAlignment="Center"/>
+                <TextBox Style="{StaticResource Title}" VerticalContentAlignment="Center" Name="Tb_Temperature" Text="" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" TextAlignment="Center"/>
 
 
                 <Grid Grid.Row="1"  >
@@ -163,11 +196,11 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_HeurePlusUn" Grid.Column="0" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_HeurePlusDeux" Grid.Column="1" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_HeurePlusTrois" Grid.Column="2" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_HeurePlusQuatre" Grid.Column="3" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_HeurePlusCinq" Grid.Column="4" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_Heure00h00" VerticalContentAlignment="Center" Grid.Column="0" Text="00h00" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_Heure08h00" VerticalContentAlignment="Center" Grid.Column="1" Text="08h00" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_Heure12h00" VerticalContentAlignment="Center" Grid.Column="2" Text="12h00" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_Heure16h00" VerticalContentAlignment="Center" Grid.Column="3" Text="16h00" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_Heure20h00" VerticalContentAlignment="Center" Grid.Column="4" Text="20h00" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
                 </Grid>
 
                 <Grid Grid.Column="0" Grid.Row="2"  >
@@ -179,11 +212,11 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_TempPlusUn" Grid.Column="0" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_TempPlusDeux" Grid.Column="1" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_TempPlusTrois" Grid.Column="2" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_TempPlusQuatre" Grid.Column="3" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_TempPlusCinq" Grid.Column="4" Text="ttttt" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_Temp00h00" Grid.Column="0" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_Temp08h00" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_Temp12h00" Grid.Column="2" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_Temp16h00" Grid.Column="3" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_Temp20h00" Grid.Column="4" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40" Height="30" TextAlignment="Center"/>
                 </Grid>
             </Grid>
 
@@ -197,35 +230,36 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Style="{StaticResource Moyen}" Name="Tb_Precipitation" Grid.Row="0" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" TextAlignment="Center"/>
-                <TextBox Style="{StaticResource Moyen}" Name="Tb_Humidite" Grid.Row="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" TextAlignment="Center"/>
-                <TextBox Style="{StaticResource Moyen}" Name="Tb_Vent" Grid.Row="2" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" TextAlignment="Center"/>
+                <TextBox Style="{StaticResource Moyen}" VerticalContentAlignment="Center" Name="Tb_Precipitation" Grid.Row="0" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" TextAlignment="Center"/>
+                <TextBox Style="{StaticResource Moyen}" VerticalContentAlignment="Center" Name="Tb_Humidite" Grid.Row="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" TextAlignment="Center"/>
+                <TextBox Style="{StaticResource Moyen}" VerticalContentAlignment="Center" Name="Tb_Vent" Grid.Row="2" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30" TextAlignment="Center"/>
 
 
             </Grid>
         </Grid>
-        
+
 
         <!--Grid pour le plus elever et le moins elever de aujourd'hui-->
 
         <Grid Grid.Row="2" Name="PlusEtMoins" Background="Transparent">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="1.5*"/>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="2.1*"/>
             </Grid.ColumnDefinitions>
 
             <Image Source="/Image/Haut.png" Grid.Column="0" IsEnabled="False"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Margin="30,0,0,0"/>
-            <TextBox Style="{StaticResource Petit}" Name="Tb_Plus" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="40" TextAlignment="Center" Margin="0,0,30,0"/>
-            <Image Source="/Image/Bas.png" Grid.Column="3" IsEnabled="False"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Margin="30,0,0,0"/>
-            <TextBox Style="{StaticResource Petit}" Name="Tb_Moins" Grid.Column="4" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="40" TextAlignment="Center" Margin="0,0,30,0"/>
+            <TextBox Style="{StaticResource Moyen}" VerticalContentAlignment="Center" Name="Tb_Plus" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="40" TextAlignment="Center" Margin="0,0,30,0"/>
+            <Image Source="/Image/Bas.png" Grid.Column="2" IsEnabled="False"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Margin="30,0,0,0"/>
+            <TextBox Style="{StaticResource Moyen}" VerticalContentAlignment="Center" Name="Tb_Moins" Grid.Column="3" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="40" TextAlignment="Center" Margin="0,0,30,0"/>
         </Grid>
 
         <!--Grid pour le temps des autres jours-->
-
-        <Grid Grid.Row="3" Name="MeteoApres" Background="Transparent">
+        
+        
+        <Grid Grid.Row="3" Name="MeteoApres"  Style="{StaticResource GridBas}" Background="Transparent" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -233,88 +267,87 @@
             </Grid.ColumnDefinitions>
         
 
-        <Grid Grid.Column="0" Name="Jour1" Background="Transparent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.5*"/>
-            </Grid.RowDefinitions>
+            <Grid Grid.Column="0" Name="Jour1" Background="Transparent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
 
-                <TextBox Style="{StaticResource Moyen}" Name="Tb_Jour1Date" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25"/>
-                <Label Name="Jour1Image" Grid.Row="1" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="70"/>
-                <TextBox Style="{StaticResource Petit}" Name="Tb_TempJour1" Grid.Row="2" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25"/>
+                <TextBox Style="{StaticResource Date}" VerticalContentAlignment="Center" Name="Tb_Jour1Date" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"/>
+                <Image x:Name="ImageTemperatureUn" Grid.Row="1" />
 
-            <Grid Grid.Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
 
-                    <Image Source="/Image/Haut.png" Grid.Column="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Margin="30,0,0,0"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_PlusJour1" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
-                    <Image Source="/Image/Bas.png" Grid.Column="2" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Margin="30,0,0,0"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_MoinsJour1" Grid.Column="3" IsEnabled="False" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
-            </Grid>
-
-            <!-- Continuation pour Jour2 et Jour3... -->
-
-        </Grid>
-        <Grid Grid.Column="1" Name="Jour2" Background="Transparent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.5*"/>
-            </Grid.RowDefinitions>
-
-                <TextBox Style="{StaticResource Moyen}" Name="Tb_Jour2Date" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25"/>
-                <Label Name="Jour2Image" Grid.Row="1" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="70"/>
-                <TextBox Style="{StaticResource Petit}" Name="Tb_TempJour2" Grid.Row="2" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25"/>
-
-            <Grid Grid.Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
                     <Image Source="/Image/Haut.png" Grid.Column="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Margin="30,0,0,0"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_PlusJour2" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_PlusJour1" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
                     <Image Source="/Image/Bas.png" Grid.Column="2" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Margin="30,0,0,0"/>
-                    <TextBox Style="{StaticResource Minuscule}" Name="Tb_MoinsJour2" Grid.Column="3" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_MoinsJour1" Grid.Column="3" IsEnabled="False" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
+                </Grid>
+                
+                <!-- Continuation pour Jour2 et Jour3... -->
+
             </Grid>
-        </Grid>
+            <Grid Grid.Column="1" Name="Jour2" Background="Transparent">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="1.5*"/>
 
-        <Grid Grid.Column="2" Name="Jour3" Background="Transparent">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="1.5*"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.5*"/>
-            </Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
 
-                <TextBox Style="{StaticResource Moyen}" Name="Tb_Jour3Date" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25"/>
-                <Label Name="Jour3Image" Grid.Row="1" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="70"/>
-                <TextBox Style="{StaticResource Petit}" Name="Tb_TempJour3" Grid.Row="2" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="25"/>
+                <TextBox Style="{StaticResource Date}" VerticalContentAlignment="Center" Name="Tb_Jour2Date" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"/>
+                <Image x:Name="ImageTemperatureDeux" Grid.Row="1" />
 
-            <Grid Grid.Row="3">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
                     <Image Source="/Image/Haut.png" Grid.Column="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Margin="30,0,0,0"/>
-                    <TextBox Name="Tb_PlusJour3" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_PlusJour2" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
                     <Image Source="/Image/Bas.png" Grid.Column="2" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Margin="30,0,0,0"/>
-                    <TextBox Name="Tb_MoinsJour3" Grid.Column="3" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_MoinsJour2" Grid.Column="3" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
+                </Grid>
             </Grid>
-        </Grid>
+
+            <Grid Grid.Column="2" Name="Jour3" Background="Transparent"  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="1.5*"/>
+
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+
+                <TextBox Style="{StaticResource Date}" VerticalContentAlignment="Center" Name="Tb_Jour3Date" Grid.Row="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" Height="30"/>
+                <Image x:Name="ImageTemperatureTrois" Grid.Row="1" />
+
+
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="/Image/Haut.png" Grid.Column="0" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Margin="30,0,0,0"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_PlusJour3" Grid.Column="1" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
+                    <Image Source="/Image/Bas.png" Grid.Column="2" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="25" Height="25" Margin="30,0,0,0"/>
+                    <TextBox Style="{StaticResource Minuscule}" VerticalContentAlignment="Center" Name="Tb_MoinsJour3" Grid.Column="3" Text="" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Height="25" TextAlignment="Center" Margin="0,0,30,0"/>
+                </Grid>
+            </Grid>
         </Grid>
 
 
@@ -328,11 +361,11 @@
 
 
     </Grid>
-                    
-                
-            
-        
-    
+
+
+
+
+
 
 
 
