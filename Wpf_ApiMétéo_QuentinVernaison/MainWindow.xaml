@@ -149,9 +149,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="0.3*"/>
-                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.3*"/>
+                <ColumnDefinition Width="0.7*"/>
                 <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
@@ -160,7 +160,9 @@
             <ComboBox  Grid.Column="1" Name="Cb_Ville" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30"/>
             <Image Source="/Image/Calendrier.png" Grid.Column="5"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" IsEnabled="False"/>
             <TextBox Style="{StaticResource Moyen}" VerticalContentAlignment="Center" Grid.Column="6" Name="Tb_Date" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="30" IsEnabled="False"/>
-            
+            <Button Grid.Column="2" Name="Btn_Ajouter" Content="+" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Click="Btn_Ajouter_Click"/>
+            <Button Grid.Column="3" Name="Btn_Supprimer" Content="-" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30" Height="30" Click="Btn_Supprimer_Click"/>
+            <TextBox Grid.Column="4" Name="Tb_Ajouter" Style="{StaticResource Moyen}" IsReadOnly="False" Text="" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="30" TextAlignment="Center"/>
         </Grid>
 
         <!--Grid pour le temps de aujourd'hui-->

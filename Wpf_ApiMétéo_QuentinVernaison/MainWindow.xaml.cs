@@ -6,9 +6,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Wpf_ApiMétéo_QuentinVernaison;
+using System.Linq;
+using static Wpf_ApiMétéo_QuentinVernaison.WeatherService;
+using static Wpf_ApiMétéo_QuentinVernaison.TimerService;
 
 namespace Wpf_ApiMétéo_QuentinVernaison
 {
@@ -848,172 +851,186 @@ namespace Wpf_ApiMétéo_QuentinVernaison
         public FcstDay4 fcst_day_4 { get; set; }
     }
 
-
-
+    
+    
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        private TimerService timer = new TimerService();
+
         private WeatherService weatherService = new WeatherService();
         private string baseUrl = "https://www.prevision-meteo.ch/services/json/";
-        
+
         public MainWindow()
         {
             InitializeComponent();
-            InitializeComboBox();
+            weatherService.mainwindow = this;
+            timer.mainwindow = this;
 
-            
+
+            weatherService.InitializeComboBox();
+
             // Sélectionner Annecy par défaut lors du chargement de la fenêtre
             Cb_Ville.SelectedItem = "Annecy";
             // Appeler la méthode GetWeather avec la ville sélectionnée
             _ = GetWeather("Annecy");
 
             //Appeler la méthode Timer
-            Timer();
+            timer.Timer();
 
             //si la personne selectionne une autre ville dans la combobox afficher la météo de cette ville
             Cb_Ville.SelectionChanged += Cb_Ville_SelectionChanged;
-            
 
-
-
-        }
-
-
-        //Méthode qui permet d'initialiser la combobox
-        private void InitializeComboBox()
-        {
-            // Associer la liste des villes à la ComboBox
-            Cb_Ville.ItemsSource = weatherService.GetCityList();
         }
 
         //Méthode qui permet de changer la météo en fonction de la ville sélectionnée
         private async void Cb_Ville_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Obtenir la ville sélectionnée
-            string selectedCity = Cb_Ville.SelectedItem as string;
+           
+            
+                // Obtenir la ville sélectionnée
+                string selectedCity = Cb_Ville.SelectedItem as string;
 
-            // Appeler la méthode GetWeather avec la ville sélectionnée
-            await GetWeather(selectedCity);
+                // Appeler la méthode GetWeather avec la ville sélectionnée
+                await GetWeather(selectedCity);
+            
+           
+                
+            
+           
         }
 
-        
 
-        private void Timer()
+        private void Btn_Ajouter_Click(object sender, RoutedEventArgs e)
         {
-            // Faire un timer qui s'actualise toutes les 10 minutes pour actualiser la météo
-            DispatcherTimer timer = new DispatcherTimer();           
-            timer.Interval = TimeSpan.FromMinutes(10);
-            timer.Tick += Timer_Tick;
-            timer.Start();
+            string Ville = Tb_Ajouter.Text;
+            //Appel la fonction AjouterLaVille
+
+            weatherService.AjouterLaVille(Ville);
+
+        }
+
+        private void Btn_Supprimer_Click(object sender, RoutedEventArgs e)
+        {
+            string Ville = Tb_Ajouter.Text;
+            //Appel la fonction SupprimerLaVille
+            weatherService.SupprimerUneVille(Ville);
 
         }
 
         //Méthode qui s'actualise toutes les 10 minutes
-        private void Timer_Tick(object sender, EventArgs e)
+        public void Timer_Tick(object sender, EventArgs e)
         {
             // Actualiser la météo toutes les 10 secondes
             // Appeler la méthode GetWeather avec la ville sélectionnée
-            _= GetWeather(Cb_Ville.SelectedItem as string);
-            
+            _ = GetWeather(Cb_Ville.SelectedItem as string);
+
         }
-        
+
         // Permet d'afficher la météo de la ville sélectionnée
         public async Task<string> GetWeather(string city)
         {
-            HttpClient client = new HttpClient();
             try
             {
+                HttpClient client = new HttpClient();
                 string apiUrl = $"{baseUrl}{city}";
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    Root root = JsonConvert.DeserializeObject<Root>(content);
+                    if (content.Contains("error"))
+                    { 
+                        return null;
+                    }
 
-                   
-                    CurrentCondition currentcondition = root.current_condition;
-                    FcstDay0 fcstDay0 = root.fcst_day_0;
-                    FcstDay1 fcstDay1 = root.fcst_day_1;
-                    FcstDay2 fcstDay2 = root.fcst_day_2;
-                    FcstDay3 fcstDay3 = root.fcst_day_3;
-                    HourlyData hourlyData = root.fcst_day_0.hourly_data;
+                     Root root = JsonConvert.DeserializeObject<Root>(content);
 
-                    //Afficher les images
-                    ImageTemperature.Source = new BitmapImage(new Uri(currentcondition.icon_big));
-                    ImageTemperatureUn.Source = new BitmapImage(new Uri(fcstDay0.icon_big));
-                    ImageTemperatureDeux.Source = new BitmapImage(new Uri(fcstDay1.icon_big));
-                    ImageTemperatureTrois.Source = new BitmapImage(new Uri(fcstDay2.icon_big));
+                     CurrentCondition currentcondition = root.current_condition;
+                     FcstDay0 fcstDay0 = root.fcst_day_0;
+                     FcstDay1 fcstDay1 = root.fcst_day_1;
+                     FcstDay2 fcstDay2 = root.fcst_day_2;
+                     FcstDay3 fcstDay3 = root.fcst_day_3;
+                     
+                        // Afficher les images
+                        ImageTemperature.Source = new BitmapImage(new Uri(currentcondition.icon_big));
+                        ImageTemperatureUn.Source = new BitmapImage(new Uri(fcstDay0.icon_big));
+                        ImageTemperatureDeux.Source = new BitmapImage(new Uri(fcstDay1.icon_big));
+                        ImageTemperatureTrois.Source = new BitmapImage(new Uri(fcstDay2.icon_big));
 
-                    //Afficher la température actuelle
-                    Tb_Temperature.Text = currentcondition.tmp + "°C";
+                        // Afficher la température actuelle
+                        Tb_Temperature.Text = currentcondition.tmp + "°C";
 
-                    //Afficher le vent, la pression et l'humidité 
-                    Tb_Humidite.Text = "Humidité" + ": " + currentcondition.humidity + "%";
-                    Tb_Vent.Text = "Vent" + ": " + currentcondition.wnd_spd + "km/h";
-                    Tb_Precipitation.Text = "Pression" + ": " + currentcondition.pressure + "hPa";
+                        // Afficher le vent, la pression et l'humidité
+                        Tb_Humidite.Text = "Humidité" + ": " + currentcondition.humidity + "%";
+                        Tb_Vent.Text = "Vent" + ": " + currentcondition.wnd_spd + "km/h";
+                        Tb_Precipitation.Text = "Pression" + ": " + currentcondition.pressure + "hPa";
 
-                    //Afficher les températures plus et moins du jour
-                    Tb_Plus.Text = fcstDay0.tmax + "°C";
-                    Tb_Moins.Text = fcstDay0.tmin + "°C";
+                        // Afficher les températures plus et moins du jour
+                        Tb_Plus.Text = fcstDay0.tmax + "°C";
+                        Tb_Moins.Text = fcstDay0.tmin + "°C";
 
-                    //Afficher la date du jour
-                    Tb_Date.Text = fcstDay0.day_long + "  " + fcstDay0.date;
+                        // Afficher la date du jour
+                        Tb_Date.Text = fcstDay0.day_long + "  " + fcstDay0.date;
 
-                    //Afficher les dates des jours suivants
-                    Tb_Jour1Date.Text = fcstDay1.day_short + "  " + fcstDay1.date;
-                    Tb_Jour2Date.Text = fcstDay2.day_short + "  " + fcstDay2.date;
-                    Tb_Jour3Date.Text = fcstDay3.day_short + "  " + fcstDay3.date;
+                        // Afficher les dates des jours suivants
+                        Tb_Jour1Date.Text = fcstDay1.day_short + "  " + fcstDay1.date;
+                        Tb_Jour2Date.Text = fcstDay2.day_short + "  " + fcstDay2.date;
+                        Tb_Jour3Date.Text = fcstDay3.day_short + "  " + fcstDay3.date;
 
-                    //Afficher les températures plus et moins des jours suivants
-                    Tb_MoinsJour1.Text = fcstDay1.tmin + "°C";
-                    Tb_PlusJour1.Text = fcstDay1.tmax + "°C";
-                    Tb_MoinsJour2.Text = fcstDay2.tmin + "°C";
-                    Tb_PlusJour2.Text = fcstDay2.tmax + "°C";
-                    Tb_MoinsJour3.Text = fcstDay3.tmin + "°C";
-                    Tb_PlusJour3.Text = fcstDay3.tmax + "°C";
+                        // Afficher les températures plus et moins des jours suivants
+                        Tb_MoinsJour1.Text = fcstDay1.tmin + "°C";
+                        Tb_PlusJour1.Text = fcstDay1.tmax + "°C";
+                        Tb_MoinsJour2.Text = fcstDay2.tmin + "°C";
+                        Tb_PlusJour2.Text = fcstDay2.tmax + "°C";
+                        Tb_MoinsJour3.Text = fcstDay3.tmin + "°C";
+                        Tb_PlusJour3.Text = fcstDay3.tmax + "°C";
 
-                    //Afficher la température L'heure du lever su soleil et du coucher du soleil
-
-                    Tb_Sunrise.Text = "Lever du soleil" + ": " + root.city_info.sunrise;
-                    Tb_Sunset.Text = "Coucher du soleil" + ": " + root.city_info.sunset;
-
-
-
-                    
-                    
+                        // Afficher la température, l'heure du lever du soleil et du coucher du soleil
+                        Tb_Sunrise.Text = "Lever du soleil" + ": " + root.city_info.sunrise;
+                        Tb_Sunset.Text = "Coucher du soleil" + ": " + root.city_info.sunset;
+                     
+                     
 
                     return "";
                 }
+                else
+                {
+                    MessageBox.Show("Erreur lors de la récupération des informations météorologiques");
+                    return "";
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show("Erreur de connexion Internet");
+                return ex.Message;
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show("Erreur lors de la récupération des données météorologiques");
+                return ex.Message;
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Une erreur s'est produite");
                 return ex.Message;
             }
-
-            return null;
         }
     }
 
-    //Classe qui permet de récupérer les données de la météo
-    public class WeatherService
-    {
-        public List<string> GetCityList()
-        {
-            // Retourner la liste des villes, par exemple, Annecy, Paris, etc.
-            return new List<string> { "Annecy", "Paris", "Lyon", "Marseille", "Grenoble", "Lille" };
-        }
 
-        
+
 
     }
 
-    
-}
 
+
+
+
+
+   
 
 
 

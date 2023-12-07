@@ -58,6 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="TimerService.cs" />
+    <Compile Include="WeatherService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,6 +120,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\Bleu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ListeVille\Ville.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
